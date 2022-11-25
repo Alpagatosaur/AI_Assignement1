@@ -14,13 +14,13 @@ requied_size = (416, 416)
 
 path_file = os.getcwd()
 os.path.dirname(os.path.abspath(path_file))
-path_project = '\\'.join(path_file.split('\\')[0:-2])
+path_project = '\\'.join(path_file.split('\\')[0:-1])
 
-PATH_CCNAMES = os.path.join(path_project, "Assignmt1", "lib_req", YOLOV3_PATH, "data", "coco.names")
-PATH_YOLOV3_TINY_CFG = os.path.join(path_project, "Assignmt1", "lib_req", YOLOV3_PATH, "cfg", "yolov3-tiny.cfg")
-PATH_YOLOV3_TINY_WEIGHTS = os.path.join(path_project, "Assignmt1", "lib_req", YOLOV3_PATH, "yolov3-tiny.weights")
-PATH_TEST_IMG = os.path.join(path_project, "Assignmt1", "Pb2", "img", name_test_image)
-PATH_RESULT_IMG = os.path.join(path_project, "Assignmt1", "Pb2", "img", name_res_img)
+PATH_CCNAMES = os.path.join(path_project, "lib_req", YOLOV3_PATH, "data", "coco.names")
+PATH_YOLOV3_TINY_CFG = os.path.join(path_project, "lib_req", YOLOV3_PATH, "cfg", "yolov3-tiny.cfg")
+PATH_YOLOV3_TINY_WEIGHTS = os.path.join(path_project, "lib_req", YOLOV3_PATH, "yolov3-tiny.weights")
+PATH_TEST_IMG = os.path.join(path_project, "Pb2", "img", name_test_image)
+PATH_RESULT_IMG = os.path.join(path_project, "Pb2", "img", name_res_img)
 
 
 
