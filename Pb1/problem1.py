@@ -3,6 +3,7 @@
 import cv2
 import os
 
+# Get PATH
 doc_img = "img"
 name_new_img = "template"
 name_test_img = "test"
@@ -58,12 +59,15 @@ color_test = cv2.cvtColor(img, cv2.IMREAD_GRAYSCALE)
 
 
 """ SIFT """
+# Create SIFT
 sift = cv2.SIFT_create()
 kp1, des1 = sift.detectAndCompute(color_new, None)
 kp2, des2 = sift.detectAndCompute(color_test, None)
 
+# For search matches
 bf = cv2.BFMatcher()
 
+# Select 2 img
 matches = bf.knnMatch(des1,des2,k=2)
 
 good = []
@@ -72,5 +76,6 @@ for m,n in matches:
     if m.distance < 0.75*n.distance: # If the match value > 75%
         good.append([m])
 
+# Draw matches
 fin = cv2.drawMatchesKnn(color_new,kp1,color_test,kp2,good,None,flags=cv2.DrawMatchesFlags_NOT_DRAW_SINGLE_POINTS)
 cv2.imshow("FINAL", fin)

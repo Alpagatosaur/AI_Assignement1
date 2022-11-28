@@ -51,6 +51,8 @@ layer_outputs = net.forward(inputlayers)
 boxes = []
 confidences = []
 class_idn = []
+nb_person = []
+i = 1
 # Loop over the layers
 for output in layer_outputs:
     # For the layer loop over all detections
@@ -65,15 +67,19 @@ for output in layer_outputs:
         if confidence > value_confidence:
             # The first four entries have the location and size (center, size)
             # It needs to be scaled up as the result is given in relative size (0.0 to 1.0)
-            box = detection[0:4] * np.array([w, h, w, h])
-            center_x, center_y, width, height = box.astype(int).tolist()
-            # Calculate the upper corner
-            x = center_x - width//2
-            y = center_y - height//2
-            # Add our findings to the lists
-            boxes.append([x, y, width, height])
-            confidences.append(confidence)
-            class_idn.append(class_id)
+            
+            if class_id == 0:  # person's id == 0
+                box = detection[0:4] * np.array([w, h, w, h])
+                center_x, center_y, width, height = box.astype(int).tolist()
+                # Calculate the upper corner
+                x = center_x - width//2
+                y = center_y - height//2
+                # Add our findings to the lists
+                boxes.append([x, y, width, height])
+                confidences.append(confidence)
+                class_idn.append(class_id)
+                nb_person.append("Person " + str(i))
+                i = i+1
 # Only keep the best boxes of the overlapping ones
 idxs = cv2.dnn.NMSBoxes(boxes, confidences, score_threshold, nms_threshold)
 # Ensure at least one detection exists - needed otherwise flatten will fail
@@ -84,9 +90,10 @@ if len(idxs) > 0:
         x, y, w, h = boxes[i]
         # Make a rectangle
         cv2.rectangle(image, (x, y), (x + w, y + h), colors_for_labels[class_idn[i]], 2)
+
         # Make and add text
-        text = "{}: {:.4f}".format(labels_all[class_idn[i]], confidences[i])
-        cv2.putText(image, text, (x, y - 5), cv2.FONT_HERSHEY_SIMPLEX,
+        # text = "{}: {:.4f}".format(labels_all[class_idn[i]], confidences[i])
+        cv2.putText(image, nb_person[i], (x, y - 5), cv2.FONT_HERSHEY_SIMPLEX,
                     0.5, colors_for_labels[class_idn[i]], 2)
         
 cv2.imshow("Final", image)
